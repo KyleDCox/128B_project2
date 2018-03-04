@@ -9,7 +9,7 @@ CurrentLayer=Weights1*Input;
 
 %Iterating across the number of layers
 for i=1:NumHidden
-    CurrentLayer=Weights(:,:,i)*CurrentLayer;
+    CurrentLayer=part_iii(CurrentLayer,Weights(:,:,i));
 end
 
 %Outputting the guess

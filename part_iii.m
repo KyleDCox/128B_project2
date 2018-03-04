@@ -3,8 +3,8 @@ function [OUT] = part_iii(input, weight)
 %   computes NET and then OUT as shown
 %   assuems input and weight are of the same length
 
-NET = sum(input .* weight);
-OUT = (1 + exp^(-NET))^-1;
+NET = weight*input;
+OUT = (1 + exp(-NET)).^-1;
 
 end
 
