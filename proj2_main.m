@@ -5,8 +5,9 @@ clear;
 
 %% Part ii
 
-load('mnist_all.mat')
+load('mnist_all.mat') %Loading the dataset
 
+%Plotting example numbers fromt the dataset to test the function
 figure(1);
 subplot(2,2,1);
 ViewDigit(train0(1,:));
@@ -23,9 +24,9 @@ axis square tight off;
 subplot(2,2,4);
 ViewDigit(train8(949,:));
 axis square tight off;
-colormap(gray(256))
+colormap(gray(256)) %Changing the colors to greyscale
 
-
+% Creating a matrix of number averages
 T=zeros(10,784);
 T(1,:)=mean(train0);
 T(2,:)=mean(train1);
@@ -38,6 +39,7 @@ T(8,:)=mean(train7);
 T(9,:)=mean(train8);
 T(10,:)=mean(train9);
 
+%Making a subplot of the number averages
 figure(2);
 subplot(2,5,1);
 ViewDigit(T(1,:))
@@ -79,4 +81,4 @@ subplot(2,5,10);
 ViewDigit(T(10,:))
 axis square tight off;
 
-colormap(gray(256))
+colormap(gray(256)) %Converting the color to greyscale
