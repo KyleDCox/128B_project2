@@ -16,5 +16,5 @@ weights = zeros(max(NumNeurons), max(NumNeurons), NumHidden);
 for i=1:NumHidden - 1
     weights(NumNeurons(i+1),NumNeurons(i),i) = rand(NumNeurons(i+1),NumNeurons(i));
 end
-% we know that output layer has 10 neurons
-weights(10,NumNeurons(size(NumNeurons)), NumHidden) = rand(10, NumNeurons(size(NumNeurons)));
+% we know that output layer has 784 neurons
+weights(784,NumNeurons(size(NumNeurons)), NumHidden) = rand(784, NumNeurons(size(NumNeurons)));
