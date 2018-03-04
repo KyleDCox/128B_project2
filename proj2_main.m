@@ -96,3 +96,21 @@ axis square tight off;
 
 %Converting the color to greyscale
 colormap(gray(256))
+
+%% Part iv
+
+%The Neural Net Function is Given in part_iv.m
+
+%The Number of Hidden Layers
+NumHidden = 4;
+
+%The Number of Neurons in Each Layer
+NumNeurons = [32 16 24 16];
+
+%% Part v
+
+[Weights1, Weights] = part_v(NumHidden, NumNeurons);
+
+%% Part vi
+
+
