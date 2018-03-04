@@ -1,4 +1,4 @@
-function [weights1, weights] = part_v(NumHidden, NumNeurons)
+function [weights1, weights, weightsO] = part_v(NumHidden, NumNeurons)
 %PART_V creates the weights for the first iteration and subsequent ones
 %   uses rand to create matrices of the appropriate size
 %   NumHidden is the number of hidden layers
@@ -17,4 +17,5 @@ for i=1:NumHidden - 1
     weights(NumNeurons(i+1),NumNeurons(i),i) = rand(NumNeurons(i+1),NumNeurons(i));
 end
 % we know that output layer has 784 neurons
-weights(784,NumNeurons(size(NumNeurons)), NumHidden) = rand(784, NumNeurons(size(NumNeurons)));
+weightsO = rand(784, NumNeurons(size(NumNeurons)));
+end
