@@ -8,13 +8,12 @@ CurrentLayer=zeros(max(NumNeurons),1);
 CurrentLayer=Weights1*Input;
 
 %Iterating across the number of layers
-for i=1:NumHidden
+for i=1:NumHidden-1
     CurrentLayer=part_iii(CurrentLayer,Weights(:,:,i));
 end
 
 %Outputting the guess
-Output=max(CurrentLayer(1:10));
-
+Output=part_iii(CurrentLayer,Weights(:,:,NumHidden));
 
 end
 
