@@ -44,17 +44,32 @@
 
 
 \subsection*{Part (i)}
-See attached.
+Followed instructions.
 
 \subsection*{Part (ii)}
 Done as requested.  
 See attached.
 
 \subsection*{Part (iii)}
-
-
+Let $x$ be $NET$.
+We have 
+\[OUT = F(x) = \frac{1}{1+e^{-x}}\]
+and
+\[F^\prime(x) = \frac{e^{-x}}{(1+e^{-x})^2} = \frac{1-1+e^{-x}}{(1+e^{-x})^2} = \frac{1+e^{-x}}{(1+e^{-x})^2} -\frac{1}{(1+e^{-x})^2} = F(x)(1-F(x))\]
+which was to be shown.
+When $x$ is large, then $F(x)$ will be close to 1 because as $x\rightarrow\infty$, $e^{-x}\rightarrow 0$.
+On the other hand, when $x$ small, $F(x)$ will tend to zero.
+This is because $x\ll 0$, $e^{-x}$ is very large.
+Therefore, as the numerator is constant, $F(x)$ will tend to zero.
+Another example of a function that can be used is $-\arctan + \pi/2$.
+The function is both differentiable and uniformly bounded.
+However, here, when $x$ is negative, the function approaches its positive bound and \textit{vice versa}.
+The relation between the input and output need not be standard.
+One may consider sine and cosine.
+These are bounded and differentiable, but are oscillatory.
+For strictly monotonic functions, either $F$ approaches its lower or upper bound at a small value of $x$ and \textit{vice versa}.
 \subsection*{Part (iv)}
-
+Only returns neural network's guess.
 
 \subsection*{Part (v)}
 
