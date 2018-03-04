@@ -2,19 +2,15 @@ function [Output] = part_iv(Input,Weights1,Weights,NumHidden,NumNeurons)
 %PART_IV Neural Network (Matrices)
 
 %Empty vector to be replaced at each layer
-CurrentLayer=zeros(max(NumNeurons),1);
+Output=zeros(max(NumNeurons),NumHidden);
 
 %Multiplying input by initial weights matrix
-CurrentLayer=Weights1*Input;
+Output(:,1)=Weights1*Input;
 
 %Iterating across the number of layers
 for i=1:NumHidden
-    CurrentLayer=part_iii(CurrentLayer,Weights(:,:,i));
+    Output(:,i+1)=part_iii(Output(:,i),Weights(:,:,i));
 end
-
-%Outputting the guess
-Output=max(CurrentLayer(1:10));
-
 
 end
 
