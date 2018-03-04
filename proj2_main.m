@@ -5,7 +5,19 @@ clear;
 
 %% Part ii
 
-load('mnist_all.mat') %Loading the dataset
+%Loading the dataset
+load('mnist_all.mat')
+%Normalizing all of the inputs to greyscale
+train0=train0/256;
+train1=train1/256;
+train2=train2/256;
+train3=train3/256;
+train4=train4/256;
+train5=train5/256;
+train6=train6/256;
+train7=train7/256;
+train8=train8/256;
+train9=train9/256;
 
 %Plotting example numbers fromt the dataset to test the function
 figure(1);
@@ -24,7 +36,8 @@ axis square tight off;
 subplot(2,2,4);
 ViewDigit(train8(949,:));
 axis square tight off;
-colormap(gray(256)) %Changing the colors to greyscale
+%Changing the colors to greyscale
+colormap(gray(256))
 
 % Creating a matrix of number averages
 T=zeros(10,784);
@@ -81,4 +94,5 @@ subplot(2,5,10);
 ViewDigit(T(10,:))
 axis square tight off;
 
-colormap(gray(256)) %Converting the color to greyscale
+%Converting the color to greyscale
+colormap(gray(256))
