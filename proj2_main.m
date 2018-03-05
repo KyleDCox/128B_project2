@@ -145,8 +145,7 @@ for j=1:10
     
     % train the same amount of images for every digit
     for i=1:size(train5,1)
-%    for i=1:100
-        for k = 1:6
+        for k = 1:10
             Layers=part_iv(TRAIN(i,:, k)', Weights1, Weights, NumHidden, NumNeurons);
             [Weights1, Weights]=part_vi(eta,TRAIN(i,:, k)',Layers,Target(:,k),Weights1,Weights,NumHidden,NumNeurons);
         end
@@ -182,7 +181,7 @@ TEST(1:1009, :, 10) = test9;
 
 numCorrect=0;
 
-for i=1:6
+for i=1:10
     for j=1:TESTNO(i)
         Layers=part_iv(TEST(j,:,i)', Weights1, Weights, NumHidden, NumNeurons);
         if max(Layers(1:10,NumHidden+1))==Layers(i,NumHidden+1)
