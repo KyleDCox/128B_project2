@@ -5,7 +5,7 @@ function [Weights1,Weights] = part_vi(eta,Input,Layers,Target,Weights1,Weights,N
 % We assume 2-norm is used to compute error
 % Target should be a vector of zeros with a 1 in the position of the writen
 % digit+1
-Error=norm(Target-Layers(1:10,NumHidden+1));
+Error=norm(Target-Layers(1:10,NumHidden+1),2);
 
 %Using matrix multiplication to avoid for loops
 %Allocating a matrix of zeros for our deltas

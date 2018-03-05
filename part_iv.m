@@ -8,11 +8,11 @@ size(Weights1);
 size(Input);
 NumNeurons(1);
 %Multiplying input by initial weights matrix
-Layers(1:NumNeurons(1),1)=double(Weights1)*double(Input);
+Layers(1:NumNeurons(1),1)=part_iii(double(Input), double(Weights1));
 
 %Iterating across the number of layers
 for i=1:NumHidden
-    Layers(:,i+1)=part_iii(Layers(:,i),Weights(:,:,i));
+    Layers(1:NumNeurons(i+1),i+1)=part_iii(Layers(1:NumNeurons(i),i),Weights(1:NumNeurons(i+1),1:NumNeurons(i),i));
 end
 
 end

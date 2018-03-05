@@ -55,43 +55,43 @@ T(10,:)=mean(train9);
 %Making a subplot of the number averages
 figure(2);
 subplot(2,5,1);
-ViewDigit(T(1,:))
+ViewDigit(T(1,:));
 axis square tight off;
 
 subplot(2,5,2);
-ViewDigit(T(2,:))
+ViewDigit(T(2,:));
 axis square tight off;
 
 subplot(2,5,3);
-ViewDigit(T(3,:))
+ViewDigit(T(3,:));
 axis square tight off;
 
 subplot(2,5,4);
-ViewDigit(T(4,:))
+ViewDigit(T(4,:));
 axis square tight off;
 
 subplot(2,5,5);
-ViewDigit(T(5,:))
+ViewDigit(T(5,:));
 axis square tight off;
 
 subplot(2,5,6);
-ViewDigit(T(6,:))
+ViewDigit(T(6,:));
 axis square tight off;
 
 subplot(2,5,7);
-ViewDigit(T(7,:))
+ViewDigit(T(7,:));
 axis square tight off;
 
 subplot(2,5,8);
-ViewDigit(T(8,:))
+ViewDigit(T(8,:));
 axis square tight off;
 
 subplot(2,5,9);
-ViewDigit(T(9,:))
+ViewDigit(T(9,:));
 axis square tight off;
 
 subplot(2,5,10);
-ViewDigit(T(10,:))
+ViewDigit(T(10,:));
 axis square tight off;
 
 %Converting the color to greyscale
@@ -123,20 +123,31 @@ NumNeurons = [100 50 10];
 [Weights1, Weights] = part_v(NumHidden, NumNeurons);
 
 %Training Rate
-eta=0.05;
+eta=0.01;
 
 % Training for 0
 %Creating target vector
 Target=zeros(10,1);
 Target(1)=1;
 
+numTestacc=0;
 
+for j=1:100
+    numTestacc=0;
+    avg_out = zeros(1);
+    for i=1:size(train0,1)
+        Layers=part_iv(train0(i,:)', Weights1, Weights, NumHidden, NumNeurons);
+        if max(Layers(1:10,NumHidden+1))==Layers(1,NumHidden+1)
+            numTestacc=numTestacc+1;
+        end
 
-for i=1:size(train0,1)
-    Layers=part_iv(train0(i,:)', Weights1, Weights, NumHidden, NumNeurons);
-    [Weights1, Weights]=part_vi(eta,train0(i,:)',Layers,Target,Weights1,Weights,NumHidden,NumNeurons);
+        avg_out = avg_out + Layers;
+    end
+    numTestacc / size(train0,1)
+    Layers = avg_out / size(train0, 1);
+    [Weights1, Weights]=part_vi(eta,T(1,:)',Layers,Target,Weights1,Weights,NumHidden,NumNeurons);
 end
-
+    
 numCorrect=0;
 
 for i=1:size(test0,1)
