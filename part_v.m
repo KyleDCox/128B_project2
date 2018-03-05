@@ -5,7 +5,7 @@ function [weights1, weights] = part_v(NumHidden, NumNeurons)
 %   NumNeurons is the number of neurons in each hidden layer
 
 % make the first weight matrix
-weights1 = rand(784, NumNeurons(1));
+weights1 = randn(NumNeurons(1), 784);
 
 % initialize weights matrix to all zeros
 weights = zeros(max(NumNeurons), max(NumNeurons), NumHidden);
@@ -15,7 +15,7 @@ weights = zeros(max(NumNeurons), max(NumNeurons), NumHidden);
 % columns is number of neurons in current layer
 % NumNeurons must have length of 1+length(NumHidden)
 for i=1:NumHidden
-    weights(1:NumNeurons(i+1),1:NumNeurons(i),i) = rand(NumNeurons(i+1),NumNeurons(i));
+    weights(1:NumNeurons(i+1),1:NumNeurons(i),i) = randn(NumNeurons(i+1),NumNeurons(i));
 end
 
 end

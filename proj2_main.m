@@ -101,16 +101,49 @@ colormap(gray(256))
 
 %The Neural Net Function is Given in part_iv.m
 
-%The Number of Hidden Layers
-NumHidden = 4;
 
-%The Number of Neurons in Each Layer
-NumNeurons = [32 16 24 16];
 
 %% Part v
 
-[Weights1, Weights] = part_v(NumHidden, NumNeurons);
 
 %% Part vi
 
+%The reverse pass is given in part_vi.m
+
+%% Part vii
+clc
+
+%The Number of Hidden Layers
+NumHidden = 2;
+
+%The Number of Neurons in Each Layer
+NumNeurons = [100 50 10];
+
+%Creating random weights
+[Weights1, Weights] = part_v(NumHidden, NumNeurons);
+
+%Training Rate
+eta=0.05;
+
+% Training for 0
+%Creating target vector
+Target=zeros(10,1);
+Target(1)=1;
+
+
+
+for i=1:size(train0,1)
+    Layers=part_iv(train0(i,:)', Weights1, Weights, NumHidden, NumNeurons);
+    [Weights1, Weights]=part_vi(eta,train0(i,:)',Layers,Target,Weights1,Weights,NumHidden,NumNeurons);
+end
+
+numCorrect=0;
+
+for i=1:size(test0,1)
+    Layers=part_iv(test0(i,:)', Weights1, Weights, NumHidden, NumNeurons);
+    if max(Layers(1:10,NumHidden+1))==Layers(1,NumHidden+1)
+        numCorrect=numCorrect+1;
+    end
+end
+numCorrect/size(test0,1)
 
