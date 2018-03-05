@@ -2,7 +2,7 @@ function [Layers] = part_iv(Input,Weights1,Weights,NumHidden,NumNeurons)
 %PART_IV Neural Network (Matrices)
 
 %Empty vector to be replaced at each layer
-Layers=zeros(max(max(NumNeurons),784),NumHidden);
+Layers=zeros(max(NumNeurons),NumHidden+1);
 
 %Multiplying input by initial weights matrix
 Layers(:,1)=Weights1*Input;
