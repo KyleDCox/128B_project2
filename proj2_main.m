@@ -123,51 +123,74 @@ NumNeurons = [100 50 10];
 [Weights1, Weights] = part_v(NumHidden, NumNeurons);
 
 %Training Rate
-eta=0.01;
+eta=0.05;
 
-% Training for 0
-%Creating target vector
 
-Target = eye(10);
-for j=1:15
-        
-    avg_out = 0;
-    for i=1:size(train1,1)
-        Layers1=part_iv(train1(i,:)', Weights1, Weights, NumHidden, NumNeurons);
-        avg_out = avg_out + Layers1;
-    end
-    Layers1 = avg_out / size(train1, 1);
-    [Weights1, Weights]=part_vi(eta,T(2,:)',Layers1,Target(:,2),Weights1,Weights,NumHidden,NumNeurons);
+%Creating target vectors
+Target = eye(10) * 0.98 + 0.01;
+
+% Create a three dimensional matrix containting the training matrices
+TRAIN(1:5421,1:784, 1) = train0(1:5421, :);
+TRAIN(:, :, 2) = train1(1:5421, :);
+TRAIN(:, :, 3) = train2(1:5421, :);
+TRAIN(:, :, 4) = train3(1:5421, :);
+TRAIN(:, :, 5) = train4(1:5421, :);
+TRAIN(:, :, 6) = train5(1:5421, :);
+TRAIN(:, :, 7) = train6(1:5421, :);
+TRAIN(:, :, 8) = train7(1:5421, :);
+TRAIN(:, :, 9) = train8(1:5421, :);
+TRAIN(:, :, 10) = train9(1:5421, :);
+
+for j=1:10
     
-    avg_out = 0;
-    for i=1:size(train0,1)
-        Layers0=part_iv(train0(i,:)', Weights1, Weights, NumHidden, NumNeurons);
-        avg_out = avg_out + Layers0;
+    % train the same amount of images for every digit
+    for i=1:size(train5,1)
+%    for i=1:100
+        for k = 1:6
+            Layers=part_iv(TRAIN(i,:, k)', Weights1, Weights, NumHidden, NumNeurons);
+            [Weights1, Weights]=part_vi(eta,TRAIN(i,:, k)',Layers,Target(:,k),Weights1,Weights,NumHidden,NumNeurons);
+        end
     end
-    Layers0 = avg_out / size(train0, 1);
-    [Weights1, Weights]=part_vi(eta,T(1,:)',Layers0,Target(:,1),Weights1,Weights,NumHidden,NumNeurons); 
 
 end
+
+% Construct three dimensional matrix for test images and number of test
+% images
+TESTNO(1) = size(test0,1);
+TESTNO(2) = size(test1,1);
+TESTNO(3) = size(test2,1);
+TESTNO(4) = size(test3,1);
+TESTNO(5) = size(test4,1);
+TESTNO(6) = size(test5,1);
+TESTNO(7) = size(test6,1);
+TESTNO(8) = size(test7,1);
+TESTNO(9) = size(test8,1);
+TESTNO(10) = size(test9,1);
+
+TEST = zeros(1135, 784, 10);
+TEST(1:980, :, 1) = test0;
+TEST(:, :, 2) = test1;
+TEST(1:1032, :, 3) = test2;
+TEST(1:1010, :, 4) = test3;
+TEST(1:982, :, 5) = test4;
+TEST(1:892, :, 6) = test5;
+TEST(1:958, :, 7) = test6;
+TEST(1:1028, :, 8) = test7;
+TEST(1:974, :, 9) = test8;
+TEST(1:1009, :, 10) = test9;
+
 
 numCorrect=0;
 
-for i=1:size(test0,1)
-    Layers=part_iv(test0(i,:)', Weights1, Weights, NumHidden, NumNeurons);
-    if max(Layers(1:10,NumHidden+1))==Layers(1,NumHidden+1)
-        numCorrect=numCorrect+1;
-    end
-end
-numCorrect
-
-
-for i=1:size(test1,1)
-    Layers=part_iv(test1(i,:)', Weights1, Weights, NumHidden, NumNeurons);
-    if max(Layers(1:10,NumHidden+1))==Layers(2,NumHidden+1)
-        numCorrect=numCorrect+1;
+for i=1:6
+    for j=1:TESTNO(i)
+        Layers=part_iv(TEST(j,:,i)', Weights1, Weights, NumHidden, NumNeurons);
+        if max(Layers(1:10,NumHidden+1))==Layers(i,NumHidden+1)
+            numCorrect=numCorrect+1;
+        end
     end
 end
 
-numCorrect
 
-numCorrect/(size(test0,1) +size(test1,1))
+numCorrect/sum(TESTNO)
 
