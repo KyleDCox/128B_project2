@@ -127,22 +127,28 @@ eta=0.01;
 
 % Training for 0
 %Creating target vector
-Target=zeros(10,1);
-Target(1)=1;
 
-numTestacc=0;
-
-for j=1:5
-
-    avg_out = zeros(1);
-    for i=1:size(train0,1)
-        Layers=part_iv(train0(i,:)', Weights1, Weights, NumHidden, NumNeurons);
-        avg_out = avg_out + Layers;
+Target = eye(10);
+for j=1:15
+        
+    avg_out = 0;
+    for i=1:size(train1,1)
+        Layers1=part_iv(train1(i,:)', Weights1, Weights, NumHidden, NumNeurons);
+        avg_out = avg_out + Layers1;
     end
-    Layers = avg_out / size(train0, 1);
-    [Weights1, Weights]=part_vi(eta,T(1,:)',Layers,Target,Weights1,Weights,NumHidden,NumNeurons);
-end
+    Layers1 = avg_out / size(train1, 1);
+    [Weights1, Weights]=part_vi(eta,T(2,:)',Layers1,Target(:,2),Weights1,Weights,NumHidden,NumNeurons);
     
+    avg_out = 0;
+    for i=1:size(train0,1)
+        Layers0=part_iv(train0(i,:)', Weights1, Weights, NumHidden, NumNeurons);
+        avg_out = avg_out + Layers0;
+    end
+    Layers0 = avg_out / size(train0, 1);
+    [Weights1, Weights]=part_vi(eta,T(1,:)',Layers0,Target(:,1),Weights1,Weights,NumHidden,NumNeurons); 
+
+end
+
 numCorrect=0;
 
 for i=1:size(test0,1)
@@ -151,5 +157,17 @@ for i=1:size(test0,1)
         numCorrect=numCorrect+1;
     end
 end
-numCorrect/size(test0,1)
+numCorrect
+
+
+for i=1:size(test1,1)
+    Layers=part_iv(test1(i,:)', Weights1, Weights, NumHidden, NumNeurons);
+    if max(Layers(1:10,NumHidden+1))==Layers(2,NumHidden+1)
+        numCorrect=numCorrect+1;
+    end
+end
+
+numCorrect
+
+numCorrect/(size(test0,1) +size(test1,1))
 
