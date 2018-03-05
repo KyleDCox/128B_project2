@@ -132,18 +132,13 @@ Target(1)=1;
 
 numTestacc=0;
 
-for j=1:100
-    numTestacc=0;
+for j=1:5
+
     avg_out = zeros(1);
     for i=1:size(train0,1)
         Layers=part_iv(train0(i,:)', Weights1, Weights, NumHidden, NumNeurons);
-        if max(Layers(1:10,NumHidden+1))==Layers(1,NumHidden+1)
-            numTestacc=numTestacc+1;
-        end
-
         avg_out = avg_out + Layers;
     end
-    numTestacc / size(train0,1)
     Layers = avg_out / size(train0, 1);
     [Weights1, Weights]=part_vi(eta,T(1,:)',Layers,Target,Weights1,Weights,NumHidden,NumNeurons);
 end
