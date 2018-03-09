@@ -69,15 +69,53 @@ One may consider sine and cosine.
 These are bounded and differentiable, but are oscillatory.
 For strictly monotonic functions, either $F$ approaches its lower or upper bound at a small value of $x$ and \textit{vice versa}.
 \subsection*{Part (iv)}
-Only returns neural network's guess.
+This function returns a matrix that contains the value of the neurons at each neural network for each layer except for the input layer.
+This is manually done for the first hidden layer because the first set of weights is not in the three dimensional array.
+The appropriate matrices and neuron values are chosen, put as arguments into the function from part (iii) and the results recorded.
 
 \subsection*{Part (v)}
-
-
+This function creates the weights of the connections between layers.
+On the advice of a friend, values of the weights were chosen to be distributed on the interval [-0.01, 0.01].
+To save space, the matrix of weights going from the input layer to the first hidden layer has its own matrix.
+For all other layers, there is a three dimension matrix where each layer stores the weights between each layer.
+For our weight matrix $W\in\R^{m\times n\times k}$, $w_{ijk}$ is the weight from the $j^{th}$ node of the $k^{th}$ layer to the $i^{th}$ node of the $(k+1)^{th}$ layer.
+This allows for less confusing notation in part (iv).
+$NumHidden$ is the number of hidden layers.
+$NumNeurons$ is the number of neurons for each hidden layer.
+The length of $NumNeurons$ is $NumHidden+1$ because the number of neurons in the output layer is 10 and there must be weights going to the output layer.
+The range of weights is the same as before.
 \subsection*{Part (vi)}
+The forward propagation is done with a call to the function in part (iv).
+It should be noted that the error computation with the update of 
+weights as described in the prompt is incorrect.
+This was verified by the fact that every neural network we generated from those instructions failing to confirm a single digit when only trained for that digit.
+Therefore, we chose to compute $ERROR=TARGET-OUTPUT$ where target is $e_i$ for the $i-1$ digit.
+We keep the original weight update equation as now there are signs.
+Before, if there was an error, and the output of the neural network was too high, all that would happen is that the weights would increase.
+The $\delta$ vector is computed all at once.
+here, $OUT_k$ is the output layer.
+This is done by \[\delta = OUT_k \circ (1-OUT_k) \circ ERROR\]
+where $\circ$ is the Hadamard product.
+Then, the matrix \[\Delta w_k = \eta \cdot \delta \cdot OUT_{k-1}^T.\]
+The change of weight matrix is the transpose of what is described in the prompt.  
+This is because we chose to implement the transpose of the weight matrix.
 
-
+We first note that the index of summation for the $\delta$ computation in the hidden layer weight adjustment is $q$ and not $k$ as typed.
+Then, it is clear that the first part of the multiplication is $O_j\circ (I-O_j)$.
+It shall now be shown that the expression provided is incorrect.
+The sum we'd like to convert to matrix form for the $k^{th}$ layer is 
+\[\sum_{q}\delta_q w_{pq}.\]
+Let $D_k$ be all $delta$'s for layer k.
+That is, for row $p$ of matrix $W$, multiply the $q^{th}$ element of $\delta$ to the element in the $q^{th}$ column (and $p^{th}$ row of $W$.
+So the corresponding expression is $(W\delta)_p$, the $p^{th}$ element of that vector.
+Then, for the general case, we have \[D_j = WD_k \circ O_j\circ (I-O_j).\]
+Since the weight matrix for our program is $\hat W =W^T$, the implementation found is actually 
+\[D_j = (D_k^T\hat W)^T\circ O_j\circ (I-O_j).\]
+Then, the same equation as above is used to compute \(\Delta w\).
 \subsection*{Part (vii)}
+To train our network, we run ever image through the network, a different digit every iteration, and perform the reverse pass.
+In order to eliminate bias, the same amount of images for each digit was used.
+Using two hidden layers with 100 and 50 neurons respectively, and going through the training images 10 times, we were able to get 92 percent accuracy for the 10,000 images.
 
 
 

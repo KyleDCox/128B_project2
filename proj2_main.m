@@ -97,18 +97,6 @@ axis square tight off;
 %Converting the color to greyscale
 colormap(gray(256))
 
-%% Part iv
-
-%The Neural Net Function is Given in part_iv.m
-
-
-
-%% Part v
-
-
-%% Part vi
-
-%The reverse pass is given in part_vi.m
 
 %% Part vii
 clc
