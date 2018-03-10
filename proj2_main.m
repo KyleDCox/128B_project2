@@ -118,18 +118,30 @@ eta=0.05;
 Target = eye(10) * 0.98 + 0.01;
 
 % Create a three dimensional matrix containting the training matrices
-TRAIN(1:5421,1:784, 1) = train0(1:5421, :);
-TRAIN(:, :, 2) = train1(1:5421, :);
-TRAIN(:, :, 3) = train2(1:5421, :);
-TRAIN(:, :, 4) = train3(1:5421, :);
-TRAIN(:, :, 5) = train4(1:5421, :);
-TRAIN(:, :, 6) = train5(1:5421, :);
-TRAIN(:, :, 7) = train6(1:5421, :);
-TRAIN(:, :, 8) = train7(1:5421, :);
-TRAIN(:, :, 9) = train8(1:5421, :);
-TRAIN(:, :, 10) = train9(1:5421, :);
+TRAINNO(1) = size(train0, 1);
+TRAINNO(2) = size(train1, 1);
+TRAINNO(3) = size(train2, 1);
+TRAINNO(4) = size(train3, 1);
+TRAINNO(5) = size(train4, 1);
+TRAINNO(6) = size(train5, 1);
+TRAINNO(7) = size(train6, 1);
+TRAINNO(8) = size(train7, 1);
+TRAINNO(9) = size(train8, 1);
+TRAINNO(10) = size(train9, 1);
 
-for j=1:10
+TRAIN = zeros(6742, 784, 10);
+TRAIN(1:5923, :, 1) = train0;
+TRAIN(1:6742, :, 2) = train1;
+TRAIN(1:5958, :, 3) = train2;
+TRAIN(1:6131, :, 4) = train3;
+TRAIN(1:5842, :, 5) = train4;
+TRAIN(1:5421, :, 6) = train5;
+TRAIN(1:5918, :, 7) = train6;
+TRAIN(1:6265, :, 8) = train7;
+TRAIN(1:5851, :, 9) = train8;
+TRAIN(1:5949, :, 10) = train9;
+
+for j=1:20
     
     % train the same amount of images for every digit
     for i=1:size(train5,1)
@@ -166,7 +178,22 @@ TEST(1:1028, :, 8) = test7;
 TEST(1:974, :, 9) = test8;
 TEST(1:1009, :, 10) = test9;
 
+% test the neural network on all images from the training set
 
+numCorrect=0;
+
+for i=1:10
+    for j=1:TRAINNO(i)
+        Layers=part_iv(TRAIN(j,:,i)', Weights1, Weights, NumHidden, NumNeurons);
+        if max(Layers(1:10,NumHidden+1))==Layers(i,NumHidden+1)
+            numCorrect=numCorrect+1;
+        end
+    end
+end
+
+train_hit = numCorrect / sum(TRAINNO);
+
+% test the neural network on all images from the test set
 numCorrect=0;
 
 for i=1:10
@@ -178,6 +205,10 @@ for i=1:10
     end
 end
 
+test_hit = numCorrect / sum(TESTNO);
 
-numCorrect/sum(TESTNO)
+fprintf('The error of the neural network for training images is %.2f%%.\n',...
+    100 * (1 - train_hit));
 
+fprintf('The error of the neural network for test images is %.2f%%.\n',...
+    100 * (1 - test_hit));
