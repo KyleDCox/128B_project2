@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+ \documentclass[12pt]{article}
  
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amsthm,amssymb}
@@ -107,19 +107,24 @@ Then, it is clear that the first part of the multiplication is $O_j\circ (I-O_j)
 It shall now be shown that the expression provided is incorrect.
 The sum we'd like to convert to matrix form for the $k^{th}$ layer is 
 \[\sum_{q}\delta_q w_{pq}.\]
-Let $D_k$ be all $delta$'s for layer k.
+Let $D_k$ be all $\delta$'s for layer k.
 That is, for row $p$ of matrix $W$, multiply the $q^{th}$ element of $\delta$ to the element in the $q^{th}$ column (and $p^{th}$ row of $W$.
 So the corresponding expression is $(W\delta)_p$, the $p^{th}$ element of that vector.
 Then, for the general case, we have \[D_j = WD_k \circ O_j\circ (I-O_j).\]
 Since the weight matrix for our program is $\hat W =W^T$, the implementation found is actually 
 \[D_j = (D_k^T\hat W)^T\circ O_j\circ (I-O_j).\]
 Then, the same equation as above is used to compute \(\Delta w\).
+
 \subsection*{Part (vii)}
 To train our network, we run ever image through the network, a different digit every iteration, and perform the reverse pass.
 In order to eliminate bias, the same amount of images for each digit was used.\\
 To check if the neural net guesses the correct digit, we check to see if the position of the max element of the output layer is equal to $1+\text{the correct digit}$ (because positioning in matlab begins at 1, but out digits begin at 0). If this is true, then we add one to our count of correct guesses, then divide the total number of correct guesses by the total number of test inputs.\\
 After training the system we first tested a regime of two hidden layer with 100 and 50 neurons respectively. We denote this regime: 100 - 50. We tested this regime on a varying the number of training iterations (one iteration is training through the entire training set once). We tested this 20 times for 10 iterations and 15 iterations each, and once for 20 iterations. The results are provided in Table 1, below. The Training Error \% denotes the percent of the time the neural net guesses the incorrect digit when the training set is used as an input. Respectively, Test Error \% represents the same for when the test set is used as an input.
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 \begin{table}[h]
 	\begin{center}
 		\caption{Error Stats for 100 - 50}
@@ -163,5 +168,6 @@ We notice that the networks error decreases as the number of iterations increase
 		\end{tabular}
 	\end{center}
 \end{table}
+
 
 \end{document}

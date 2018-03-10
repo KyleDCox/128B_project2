@@ -141,7 +141,7 @@ TRAIN(1:6265, :, 8) = train7;
 TRAIN(1:5851, :, 9) = train8;
 TRAIN(1:5949, :, 10) = train9;
 
-for j=1:20
+for j=1:10
     
     % train the same amount of images for every digit
     for i=1:size(train5,1)
