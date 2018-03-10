@@ -3,6 +3,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtools}
+\usepackage{booktabs}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -35,9 +36,9 @@
  
 \begin{document}
  
-\title{Project 1}
+\title{MAT 128B Project 2}
 \author{Steven An, Kyle Cox}
-\date{Feburary 21, 2018}
+\date{March 14, 2018}
 \maketitle
 
 \subsection*{Distribution of work}
@@ -57,17 +58,17 @@ We have
 and
 \[F^\prime(x) = \frac{e^{-x}}{(1+e^{-x})^2} = \frac{1-1+e^{-x}}{(1+e^{-x})^2} = \frac{1+e^{-x}}{(1+e^{-x})^2} -\frac{1}{(1+e^{-x})^2} = F(x)(1-F(x))\]
 which was to be shown.
-When $x$ is large, then $F(x)$ will be close to 1 because as $x\rightarrow\infty$, $e^{-x}\rightarrow 0$.
-On the other hand, when $x$ small, $F(x)$ will tend to zero.
-This is because $x\ll 0$, $e^{-x}$ is very large.
+When $x$ is large and positive, then $F(x)$ will be close to 1 because as $x\rightarrow\infty$, $e^{-x}\rightarrow 0$.
+On the other hand, when $x$ is large and negative, $F(x)$ will tend to zero.
+This is because $e^{-x}$ is very large when $x\ll 0$.
 Therefore, as the numerator is constant, $F(x)$ will tend to zero.
-Another example of a function that can be used is $-\arctan + \pi/2$.
+Another example of a function that can be used is $-\arctan\left(x\right) + \pi/2$.
 The function is both differentiable and uniformly bounded.
-However, here, when $x$ is negative, the function approaches its positive bound and \textit{vice versa}.
+However, here, when $x$ is negative, the function approaches its upper bound and \textit{vice versa}.
 The relation between the input and output need not be standard.
-One may consider sine and cosine.
-These are bounded and differentiable, but are oscillatory.
-For strictly monotonic functions, either $F$ approaches its lower or upper bound at a small value of $x$ and \textit{vice versa}.
+One may consider sinusoidal functions like $\sin(x)+1 \text{ and }\cos(x)+1$.
+These are bounded, differentiable, and always positive, but are oscillatory.
+For strictly monotonic functions, either $F$ approaches its lower or upper bound when $x$ is large and positive and \textit{vice versa}.
 \subsection*{Part (iv)}
 This function returns a matrix that contains the value of the neurons at each neural network for each layer except for the input layer.
 This is manually done for the first hidden layer because the first set of weights is not in the three dimensional array.
@@ -76,12 +77,12 @@ The appropriate matrices and neuron values are chosen, put as arguments into the
 \subsection*{Part (v)}
 This function creates the weights of the connections between layers.
 On the advice of a friend, values of the weights were chosen to be distributed on the interval [-0.01, 0.01].
-To save space, the matrix of weights going from the input layer to the first hidden layer has its own matrix.
+To save memory, the matrix of weights going from the input layer to the first hidden layer has its own matrix.
 For all other layers, there is a three dimension matrix where each layer stores the weights between each layer.
-For our weight matrix $W\in\R^{m\times n\times k}$, $w_{ijk}$ is the weight from the $j^{th}$ node of the $k^{th}$ layer to the $i^{th}$ node of the $(k+1)^{th}$ layer.
+For our weight matrix $W\in\R^{m\times n\times k}$, $w_{ijk}$ is the weight from the $j^{th}$ node of the $k^{th}$ hidden layer to the $i^{th}$ node of the $(k+1)^{th}$ hidden layer. We consider our output layer as the last hidden layer in reference to this matrix.
 This allows for less confusing notation in part (iv).
 $NumHidden$ is the number of hidden layers.
-$NumNeurons$ is the number of neurons for each hidden layer.
+$NumNeurons$ is a vector containing the number of neurons in each respective hidden layer (not including our output layer).
 The length of $NumNeurons$ is $NumHidden+1$ because the number of neurons in the output layer is 10 and there must be weights going to the output layer.
 The range of weights is the same as before.
 \subsection*{Part (vi)}
@@ -89,15 +90,15 @@ The forward propagation is done with a call to the function in part (iv).
 It should be noted that the error computation with the update of 
 weights as described in the prompt is incorrect.
 This was verified by the fact that every neural network we generated from those instructions failing to confirm a single digit when only trained for that digit.
-Therefore, we chose to compute $ERROR=TARGET-OUTPUT$ where target is $e_i$ for the $i-1$ digit.
-We keep the original weight update equation as now there are signs.
+Therefore, we chose to compute $ERROR=TARGET-OUTPUT$ where \emph{TARGET}, for the $(i-1)^\text{th}$, is the standard basis vector, $e_i$.
+We keep the original weight update equation, as now there are signs.
 Before, if there was an error, and the output of the neural network was too high, all that would happen is that the weights would increase.
 The $\delta$ vector is computed all at once.
 here, $OUT_k$ is the output layer.
 This is done by \[\delta = OUT_k \circ (1-OUT_k) \circ ERROR\]
 where $\circ$ is the Hadamard product.
 Then, the matrix \[\Delta w_k = \eta \cdot \delta \cdot OUT_{k-1}^T.\]
-The change of weight matrix is the transpose of what is described in the prompt.  
+NOTE: The weight change matrix is the \textbf{transpose} of what is described in the prompt.  
 This is because we chose to implement the transpose of the weight matrix.
 
 We first note that the index of summation for the $\delta$ computation in the hidden layer weight adjustment is $q$ and not $k$ as typed.
@@ -117,6 +118,24 @@ To train our network, we run ever image through the network, a different digit e
 In order to eliminate bias, the same amount of images for each digit was used.
 Using two hidden layers with 100 and 50 neurons respectively, and going through the training images 10 times, we were able to get 92 percent accuracy for the 10,000 images.
 
-
+\begin{table}
+	\begin{center}
+		\caption{Error for 100 - 50}
+		\label{tab:table1}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Iterations} & \textbf{Training Error \%} & \textbf{Test Error \%} \\
+			\hline
+			10 & 7.35 & 8.53\\
+			& 5.81 & 6.9\\
+			& 6.17 & 7.2\\
+			15 & 3.25 & 5.51\\
+			& 3.18 & 5.05\\
+			& 3.51 & 5.76\\
+			20 & &\\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
 
 \end{document}
