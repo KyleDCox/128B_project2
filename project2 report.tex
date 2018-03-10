@@ -4,6 +4,7 @@
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtools}
 \usepackage{booktabs}
+\usepackage{multirow}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -115,13 +116,36 @@ Since the weight matrix for our program is $\hat W =W^T$, the implementation fou
 Then, the same equation as above is used to compute \(\Delta w\).
 \subsection*{Part (vii)}
 To train our network, we run ever image through the network, a different digit every iteration, and perform the reverse pass.
-In order to eliminate bias, the same amount of images for each digit was used.
-Using two hidden layers with 100 and 50 neurons respectively, and going through the training images 10 times, we were able to get 92 percent accuracy for the 10,000 images.
+In order to eliminate bias, the same amount of images for each digit was used.\\
+To check if the neural net guesses the correct digit, we check to see if the position of the max element of the output layer is equal to $1+\text{the correct digit}$ (because positioning in matlab begins at 1, but out digits begin at 0). If this is true, then we add one to our count of correct guesses, then divide the total number of correct guesses by the total number of test inputs.\\
+After training the system we first tested a regime of two hidden layer with 100 and 50 neurons respectively. We denote this regime: 100 - 50. We tested this regime on a varying the number of training iterations (one iteration is training through the entire training set once). We tested this 20 times for 10 iterations and 15 iterations each, and once for 20 iterations. The results are provided in Table 1, below. The Training Error \% denotes the percent of the time the neural net guesses the incorrect digit when the training set is used as an input. Respectively, Test Error \% represents the same for when the test set is used as an input.
 
-\begin{table}
+\begin{table}[h]
+	\begin{center}
+		\caption{Error Stats for 100 - 50}
+		\label{tab:table1}
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			\multirow{2}{*}\textbf{Iterations} & \multicolumn{2}{c|}{\textbf{Training Error \%}} & \multicolumn{2}{c|}{\textbf{Test Error\%}} \\
+			\cline{2-5}
+			& Mean & Variance & Mean & Variance\\
+			\hline
+			10 & & & &\\
+			\hline
+			15 & & & &\\
+			\hline
+			20 & & & &\\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+We notice that the networks error decreases as the number of iterations increases.
+
+\begin{table}[h]
 	\begin{center}
 		\caption{Error for 100 - 50}
-		\label{tab:table1}
+		\label{tab:table2}
 		\begin{tabular}{|c|c|c|}
 			\hline
 			\textbf{Iterations} & \textbf{Training Error \%} & \textbf{Test Error \%} \\
@@ -129,10 +153,12 @@ Using two hidden layers with 100 and 50 neurons respectively, and going through 
 			10 & 7.35 & 8.53\\
 			& 5.81 & 6.9\\
 			& 6.17 & 7.2\\
+			\hline
 			15 & 3.25 & 5.51\\
 			& 3.18 & 5.05\\
 			& 3.51 & 5.76\\
-			20 & &\\
+			\hline
+			20 & 2.7 & 6.08\\
 			\hline
 		\end{tabular}
 	\end{center}
