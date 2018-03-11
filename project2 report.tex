@@ -110,7 +110,8 @@ The sum we'd like to convert to matrix form for the $k^{th}$ layer is
 Let $D_k$ be all $\delta$'s for layer k.
 That is, for row $p$ of matrix $W$, multiply the $q^{th}$ element of $\delta$ to the element in the $q^{th}$ column (and $p^{th}$ row of $W$.
 So the corresponding expression is $(W\delta)_p$, the $p^{th}$ element of that vector.
-Then, for the general case, we have \[D_j = WD_k \circ O_j\circ (I-O_j).\]
+Then, for the general case, we have \[D_j = WD_k \circ O_j\circ (I-O_j)\]
+where $I$ is the column vector of ones (as used in the prompt).
 Since the weight matrix for our program is $\hat W =W^T$, the implementation found is actually 
 \[D_j = (D_k^T\hat W)^T\circ O_j\circ (I-O_j).\]
 Then, the same equation as above is used to compute \(\Delta w\).
@@ -119,10 +120,11 @@ Then, the same equation as above is used to compute \(\Delta w\).
 To train our network, we run ever image through the network, a different digit every iteration, and perform the reverse pass.
 In order to eliminate bias, the same amount of images for each digit was used.
 
-To check if the neural net guesses the correct digit, we check to see if the position of the max element of the output layer is equal to $1+\text{the correct digit}$ (because positioning in matlab begins at 1, but out digits begin at 0). 
+To check if the neural net guesses the correct digit, we check to see if the position of the max element of the output layer is equal to $1+\text{the correct digit}$ (because positioning in matlab begins at 1, but our digits begin at 0). 
 If this is true, then we add one to our count of correct guesses, then divide the total number of correct guesses by the total number of test inputs.
 
-After training the system we first tested a regime of two hidden layer with 100 and 50 neurons respectively. We denote this as 100 - 50. 
+After training the system we first tested a regime of two hidden layer with 100 and 50 neurons respectively. 
+We denote this as `100 - 50, 5421x10' where the second term is the number of images from each digit that was used for training.
 This network structure was tested by varying the number of training iterations (one iteration is training through the entire training set once). 
 We tested this 20 times for 10 iterations and 15 iterations each, and once for 20 iterations (as the latter took too much time).
 
@@ -136,7 +138,7 @@ Similarly, Test Error \% represents the same for when the test set is used as an
 
 \begin{table}[h]
 	\begin{center}
-		\caption{Error Stats for 100 - 50}
+		\caption{Error Stats for 100 - 50, 5421x10}
 		\label{tab:table1}
 		\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 			\hline
@@ -154,9 +156,12 @@ Similarly, Test Error \% represents the same for when the test set is used as an
 	\end{center}
 \end{table}
 
+We see that from our results of training the neural network with 10 iterations 20 times that indeed, all aspects of error decreased.
+For this network structure, the value of $\eta$ did not really matter because multiple values were tested before these 41 tests were run and the error rate were not very different from the ones seen here.
+
 \begin{table}[h]
 	\begin{center}
-		\caption{Error Stats for 50 - 25}
+		\caption{Error Stats for 50 - 25, 5421x10}
 		\label{tab:table1}
 		\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 			\hline
@@ -174,9 +179,91 @@ Similarly, Test Error \% represents the same for when the test set is used as an
 	\end{center}
 \end{table}
 
+For this structure, we see that the decrease in neurons negatively affected the success rate.
+Even though the best result was close to that of the 100 - 50 structure, the variance was orders higher for 10 and 15 iterations.
+Perhaps there is a balance between training the network and not over-training it.
+The boundary between the two, would, in our speculations, be unknowable because we do not fully understand how the sigmoid function and weights represent the network's cognition, if it has any.
+Regardless, our original claim of error decreasing as training iterations increase is further corroborated by this smaller neural network.
+
+Another hypothesis is that because the neuron count in the first layer is so low, it cannot faithfully represent the `essence' of the digits.
+That is, what the neural network represents is too convoluted and  certain properties of the digit cannot be easily assigned to the representation given by the network.
+This `bad fitting' of the digits is what contributes to the low accuracy (as compared to 100 50).
+
+The value of $\eta$ did matter for some sets of initial weights when training this network.
+For certain weights, if $\eta = 0.01$, then it would only train for the last digit, 9.
+This was further supported by testing how the network performed when it was only trained and tested on two digits.
+Even for two digits, the network would only be trained for the second one.
+Choosing $\eta = 0.025$ fixed the problem and generated the results seen.
+
 \begin{table}[h]
 	\begin{center}
-		\caption{Error for 100 - 50}
+		\caption{Error Stats for 100 - 50, 2710x10}
+		\label{tab:table1}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+			\hline
+			\multirow{2}{*}\textbf{Iterations} & \multicolumn{4}{c|}{\textbf{Training Error \%}} &  \multicolumn{4}{c|}{\textbf{Test Error\%}} \\
+			\cline{2-9}
+			&Min & Mean & Max & Variance & Min & Mean & Max& Variance\\
+			\hline
+			10 & . & . & . & . & . & . & . & .\\
+			\hline
+			15 & . & . & . & . & . &. & . & . \\
+			\hline
+			20 & N/a & . & N/a & N/a & N/a & . & N/a & N/a\\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[h]
+	\begin{center}
+		\caption{Error Stats for 50 - 25, 2710x10}
+		\label{tab:table1}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+			\hline
+			\multirow{2}{*}\textbf{Iterations} & \multicolumn{4}{c|}{\textbf{Training Error \%}} &  \multicolumn{4}{c|}{\textbf{Test Error\%}} \\
+			\cline{2-9}
+			&Min & Mean & Max & Variance & Min & Mean & Max& Variance\\
+			\hline
+			10 & 40.75 & 62.66 & 90.09 & 212.86 & 43.85 & 63.93 & 89.91 & 188.89\\
+			\hline
+			15 & . & . & . & . & . &. & . & . \\
+			\hline
+			20 & N/a & . & N/a & N/a & N/a & . & N/a & N/a\\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[h]
+	\begin{center}
+		\caption{Error for 100 - 50 - 25, 5421x10}
+		\label{tab:table2}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Iterations} & \textbf{Training Error \%} & \textbf{Test Error \%} \\
+			\hline
+			10 & 23.97 & 18.30\\
+			& 25.99 & 22.88\\
+			\hline
+			20 & 20.14 & 16.52 \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+The neural network was trained with ten iterations, giving the result in the first row.
+Then, the same set of weights was trained again to get the result in the third row.
+It might be claimed that the more neurons the network has, the better it will be performed.
+These results do no give credence to either view for one can claim that if the network were further trained, the accuracy would increase to the mid nineties, but skeptics may say that the network structure inherently guarantees that the accuracy will not be high.
+Since we do not know the rate of convergence to the truth for the network, not much can be drawn from the small increase in accuracy when the training set was run through ten more times.
+
+\subsection*{Concluding Remarks}
+
+\subsection*{Raw Data (Error Perc.)}
+\begin{table}[h]
+	\begin{center}
+		\caption{Error for 100 - 50, 5421x10}
 		\label{tab:table2}
 		\begin{tabular}{|c|c|c|}
 			\hline
@@ -232,7 +319,7 @@ Similarly, Test Error \% represents the same for when the test set is used as an
 
 \begin{table}[h]
 	\begin{center}
-		\caption{Error for 50 - 25}
+		\caption{Error for 50 - 25, 5421x10}
 		\label{tab:table2}
 		\begin{tabular}{|c|c|c|}
 			\hline
@@ -281,6 +368,62 @@ Similarly, Test Error \% represents the same for when the test set is used as an
 			& 4.89 & 5.62\\
 			\hline
 			20 & 3.41 & 5.0 \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[h]
+	\begin{center}
+		\caption{Error for 50 - 25, 2710x10}
+		\label{tab:table2}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Iterations} & \textbf{Training Error \%} & \textbf{Test Error \%} \\
+			\hline
+			10 & 64.38 & 68.97\\
+			& 77.73 & 74.77\\
+			& 60.13 & 61.13\\
+			& 58.76 & 63.92\\
+			& 40.75 & 43.85\\
+			& 59.92 & 59.63\\
+			& 90.09 & 89.91\\
+			& 53.49 & 50.44\\
+			& 47.35 & 47.50\\
+			& 43.24 & 48.90\\
+			& 75.95 & 80.32\\
+			& 60.33 & 63.73\\
+			& 60.25 & 59.96\\
+			& 80.32 & 81.06\\
+			& 51.85 & 59.75\\
+			& 80.19 & 81.20\\
+			& 79.11 & 79.08\\
+			& 43.66 & 44.52\\
+			& 75.11 & 79.15\\
+			& 50.55 & 50.71\\
+			\hline
+			15 & . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			\hline
+			20 & 21.78 & 20.03 \\
 			\hline
 		\end{tabular}
 	\end{center}
