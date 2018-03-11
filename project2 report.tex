@@ -121,25 +121,21 @@ In order to eliminate bias, the same amount of images for each digit was used.\\
 To check if the neural net guesses the correct digit, we check to see if the position of the max element of the output layer is equal to $1+\text{the correct digit}$ (because positioning in matlab begins at 1, but out digits begin at 0). If this is true, then we add one to our count of correct guesses, then divide the total number of correct guesses by the total number of test inputs.\\
 After training the system we first tested a regime of two hidden layer with 100 and 50 neurons respectively. We denote this regime: 100 - 50. We tested this regime on a varying the number of training iterations (one iteration is training through the entire training set once). We tested this 20 times for 10 iterations and 15 iterations each, and once for 20 iterations. The results are provided in Table 1, below. The Training Error \% denotes the percent of the time the neural net guesses the incorrect digit when the training set is used as an input. Respectively, Test Error \% represents the same for when the test set is used as an input.
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 \begin{table}[h]
 	\begin{center}
 		\caption{Error Stats for 100 - 50}
 		\label{tab:table1}
-		\begin{tabular}{|c|c|c|c|c|}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 			\hline
-			\multirow{2}{*}\textbf{Iterations} & \multicolumn{2}{c|}{\textbf{Training Error \%}} & \multicolumn{2}{c|}{\textbf{Test Error\%}} \\
-			\cline{2-5}
-			& Mean & Variance & Mean & Variance\\
+			\multirow{2}{*}\textbf{Iterations} & \multicolumn{4}{c|}{\textbf{Training Error \%}} &  \multicolumn{4}{c|}{\textbf{Test Error\%}} \\
+			\cline{2-9}
+			&Min & Mean & Max & Variance & Min & Mean & Max& Variance\\
 			\hline
-			10 & & & &\\
+			10 & & & & & & & &\\
 			\hline
-			15 & & & &\\
+			15 & & & & & & & &\\
 			\hline
-			20 & & & &\\
+			20 & & & & & & & &\\
 			\hline
 		\end{tabular}
 	\end{center}
@@ -158,6 +154,23 @@ We notice that the networks error decreases as the number of iterations increase
 			10 & 7.35 & 8.53\\
 			& 5.81 & 6.9\\
 			& 6.17 & 7.2\\
+			& 6.11 & 7.43\\
+			& 5.53 & 6.47 \\
+			& 7.1 & 7.9 \\
+			& 4.7 & 5.81 \\
+			& 4.45 & 5.03 \\
+			& 6.05 & 6.79 \\
+			& 6.06 & 6.73 \\
+			& 4.67 & 5.45 \\
+			& 5.84 & 6.15 \\
+			& 5.4 & 6.12 \\
+			& 3.99 & 4.7 \\
+			& 4.3 & 5.01 \\
+			& 5.16 & 5.73 \\
+			& 5.96 & 6.32 \\
+			& 6.52 & 6.9 \\
+			& 5.86 & 6.25 \\
+			& . & . \\
 			\hline
 			15 & 3.25 & 5.51\\
 			& 3.18 & 5.05\\
@@ -169,5 +182,60 @@ We notice that the networks error decreases as the number of iterations increase
 	\end{center}
 \end{table}
 
+\begin{table}[h]
+	\begin{center}
+		\caption{Error for 50 - 25}
+		\label{tab:table2}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Iterations} & \textbf{Training Error \%} & \textbf{Test Error \%} \\
+			\hline
+			10 & 12.04 & 11.89\\
+			& 4.89 & 5.82\\
+			& 6.51 & 6.57\\
+			& 5.28 & 5.94\\
+			& 52.17 & 52.13\\
+			& 30.26 & 30.65\\
+			& 47.76 & 47.92\\
+			& 6.86 & 7.16\\
+			& 7.03 & 7.57\\
+			& 7.94 & 8.67\\
+			& 8.45 & 8.82\\
+			& 69.54 & 69.22\\
+			& 6.04 & 6.59\\
+			& 8.34 & 8.73\\
+			& 69.52 & 69.32\\
+			& 7.72 & 7.85\\
+			& 6.64 & 6.87\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			\hline
+			15 & . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			& . & .\\
+			\hline
+			20 & . & .\\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
 
 \end{document}
