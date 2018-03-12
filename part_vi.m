@@ -10,7 +10,7 @@ Error=Target-Layers(1:10,NumHidden+1);
 %Using matrix multiplication to avoid for loops
 %Allocating a matrix of zeros for our deltas
 delta=zeros(max(NumNeurons),NumHidden+1);
-delta(1:10,NumHidden+1)=Layers(1:10,NumHidden+1).*(1-Layers(1:10,NumHidden+1)).*Error;
+delta(1:10,NumHidden+1)=Layers(1:10,NumHidden+1).*(1 - Layers(1:10,NumHidden+1)).*Error;
 delta_w=eta*delta(:,NumHidden+1) * Layers(:,NumHidden)';
 Weights(1:NumNeurons(NumHidden+1),1:NumNeurons(NumHidden),NumHidden)= ...
     Weights(1:NumNeurons(NumHidden+1),1:NumNeurons(NumHidden),NumHidden) ...

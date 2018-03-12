@@ -98,7 +98,7 @@ The $\delta$ vector is computed all at once.
 here, $OUT_k$ is the output layer.
 This is done by \[\delta = OUT_k \circ (1-OUT_k) \circ ERROR\]
 where $\circ$ is the Hadamard product.
-Then, the matrix \[\Delta w_k = \eta \cdot \delta \cdot OUT_{k-1}^T.\]
+Then, the matrix is \[\Delta w_k = \eta \cdot \delta \cdot OUT_{k-1}^T.\]
 NOTE: The weight change matrix is the \textbf{transpose} of what is described in the prompt.  
 This is because we chose to implement the transpose of the weight matrix.
 
@@ -205,15 +205,20 @@ Choosing $\eta = 0.025$ fixed the problem and generated the results seen.
 			\cline{2-9}
 			&Min & Mean & Max & Variance & Min & Mean & Max& Variance\\
 			\hline
-			10 & . & . & . & . & . & . & . & .\\
+			10 & 17.3 & 20.37 & 22.46 & 2.23 & 14.99 & 18.31 & 22.11 & 4.51\\
 			\hline
-			15 & . & . & . & . & . &. & . & . \\
+			15 & 17.26 & 19.25 & 21.64 & 1.68 & 14.59 &16.21 & 19.23 & 1.42 \\
 			\hline
-			20 & N/a & . & N/a & N/a & N/a & . & N/a & N/a\\
+			20 & N/a & 18.45 & N/a & N/a & N/a & 15.17 & N/a & N/a\\
 			\hline
 		\end{tabular}
 	\end{center}
 \end{table}
+
+Holding the other variables constant, changing the training set into one with less images results in the loss of accuracy of the neural network.
+We see that the variance increased along with the minimum, mean and maximum.
+This gives us evidence that there is a minimum amount of sample images that need to be used as the neural network's efficacy has decreased by a considerable amount.
+An explanation could be that by having less images, the set of digits were less diverse and the neural network in its training was lacking information.
 
 \begin{table}[h]
 	\begin{center}
@@ -227,13 +232,18 @@ Choosing $\eta = 0.025$ fixed the problem and generated the results seen.
 			\hline
 			10 & 40.75 & 62.66 & 90.09 & 212.86 & 43.85 & 63.93 & 89.91 & 188.89\\
 			\hline
-			15 & . & . & . & . & . &. & . & . \\
+			15 & 18.59 & 45.65 & 90.09 & 532.38 & 21.24 & 46.21 & 89.91 & 547.77 \\
 			\hline
-			20 & N/a & . & N/a & N/a & N/a & . & N/a & N/a\\
+			20 & N/a & 21.78 & N/a & N/a & N/a & 20.03 & N/a & N/a\\
 			\hline
 		\end{tabular}
 	\end{center}
 \end{table}
+
+The results here show that having two hidden layeres with 100 and 50 neurons is a much more stable network than 50 and 25 neurons.
+In three of the twenty networks created, the weights were such that it could only correctly identify one digit, leading to the 90 percent error rate.
+All semblance of `good performance' from the neural network (when it had 5421 images per digit) was lost.
+The error rate skyrocketed and the network could not be improved by much.
 
 \begin{table}[h]
 	\begin{center}
@@ -256,11 +266,27 @@ The neural network was trained with ten iterations, giving the result in the fir
 Then, the same set of weights was trained again to get the result in the third row.
 It might be claimed that the more neurons the network has, the better it will be performed.
 These results do no give credence to either view for one can claim that if the network were further trained, the accuracy would increase to the mid nineties, but skeptics may say that the network structure inherently guarantees that the accuracy will not be high.
-Since we do not know the rate of convergence to the truth for the network, not much can be drawn from the small increase in accuracy when the training set was run through ten more times.
+Since we do not know the rate of convergence to the truth for the network, not much can be drawn from the small increase in accuracy when the training set was run through ten more times.  
+We think it would be a waste of time to test this for smaller training set based on the previous results.
 
 \subsection*{Concluding Remarks}
 
-\subsection*{Raw Data (Error Perc.)}
+We have seen now that having two hidden layers with 100 and 50 neurons is the best network structure.
+Furthermore, using as many images as possible (in terms of what we have) yielded the best performance.
+Empirical results give credence to those claims.
+Moreover, for that structure, iterating through the training data set 15 times was found to give the best result.
+
+
+It has also been seen that $\eta$ can determine whether a set of weights with a structure form a good neural network.
+However, the effects of changing $\eta$ cannot be explained with our data because every time we run the program, a new set of initial weights is generated.
+
+
+Putative hypotheses have been given to try and explain why the performance of other structures and iteration counts did not perform as well.
+Though these hypotheses may be teleological, they are the best we can come up with given our limited computational power and na\"ive notion of neural networks.
+
+The following pages are of the raw error percentages computed by generating various neural networks.
+We filled the above tables using this data.
+
 \begin{table}[h]
 	\begin{center}
 		\caption{Error for 100 - 50, 5421x10}
@@ -375,6 +401,62 @@ Since we do not know the rate of convergence to the truth for the network, not m
 
 \begin{table}[h]
 	\begin{center}
+		\caption{Error for 100 - 50, 2710x10}
+		\label{tab:table2}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Iterations} & \textbf{Training Error \%} & \textbf{Test Error \%} \\
+			\hline
+			10 & 21.08 & 19.02\\
+			& 18.35 & 15.81\\
+			& 22.21 & 22.11\\
+			& 20.70 & 21.62\\
+			& 22.10 & 20.20\\
+			& 21.16 & 19.72\\
+			& 17.30 & 15.28\\
+			& 18.81 & 14.99\\
+			& 18.79 & 17.26\\
+			& 22.29 & 19.27\\
+			& 19.08 & 16.55\\
+			& 18.58 & 15.93\\
+			& 20.30 & 21.21\\
+			& 20.60 & 18.14\\
+			& 21.88 & 18.63\\
+			& 19.93 & 16.75\\
+			& 22.46 & 17.31\\
+			& 21.27 & 19.23\\
+			& 20.35 & 17.17\\
+			& 20.15 & 20.03\\
+			\hline
+			15 & 18.80 & 15.81\\
+			& 17.80 & 14.59\\
+			& 19.99 & 16.29\\
+			& 21.43 & 16.99\\
+			& 21.17 & 16.02\\
+			& 19.43 & 18.16\\
+			& 17.58 & 15.57\\
+			& 19.24 & 15.69\\
+			& 21.64 & 19.23\\
+			& 18.46 & 16.11\\
+			& 17.89 & 15.32\\
+			& 18.76 & 15.66\\
+			& 19.83 & 16.46\\
+			& 19.88 & 15.99\\
+			& 19.56 & 17.09\\
+			& 20.85 & 18.25\\
+			& 18.33 & 15.33\\
+			& 18.18 & 15.18\\
+			& 18.99 & 15.47\\
+			& 17.26 & 15.00\\
+			\hline
+			20 & 18.45 & 15.17 \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[h]
+	\begin{center}
 		\caption{Error for 50 - 25, 2710x10}
 		\label{tab:table2}
 		\begin{tabular}{|c|c|c|}
@@ -402,26 +484,26 @@ Since we do not know the rate of convergence to the truth for the network, not m
 			& 75.11 & 79.15\\
 			& 50.55 & 50.71\\
 			\hline
-			15 & . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
-			& . & .\\
+			15 & 28.38 & 25.28\\
+			& 90.09 & 89.91\\
+			& 90.09 & 89.91\\
+			& 90.09 & 89.91\\
+			& 28.93 & 26.12\\
+			& 32.84 & 34.28\\
+			& 28.35 & 26.60\\
+			& 23.65 & 21.24\\
+			& 30.95 & 32.36\\
+			& 35.27 & 31.76\\
+			& 31.59 & 31.02\\
+			& 51.62 & 61.93\\
+			& 35.99 & 41.37\\
+			& 57.20 & 54.13\\
+			& 30.85 & 33.45\\
+			& 52.17 & 51.59\\
+			& 60.26 & 58.29\\
+			& 28.59 & 25.46\\
+			& 66.27 & 71.36\\
+			& 29.87 & 28.29\\
 			\hline
 			20 & 21.78 & 20.03 \\
 			\hline

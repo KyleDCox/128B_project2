@@ -97,21 +97,20 @@ axis square tight off;
 %Converting the color to greyscale
 colormap(gray(256))
 
-
 %% Part vii
 clc
-
+    
 %The Number of Hidden Layers
 NumHidden = 2;
 
 %The Number of Neurons in Each Layer
-NumNeurons = [100 50 10];
+NumNeurons = [100 50 10]
 
 %Creating random weights
 [Weights1, Weights] = part_v(NumHidden, NumNeurons);
 
 %Training Rate
-eta=0.05;
+eta=0.01;
 
 
 %Creating target vectors
@@ -141,10 +140,10 @@ TRAIN(1:6265, :, 8) = train7;
 TRAIN(1:5851, :, 9) = train8;
 TRAIN(1:5949, :, 10) = train9;
 
-for j=1:10
+for j=1:15
     
     % train the same amount of images for every digit
-    for i=1:size(train5,1)
+    for i=1:(size(train5,1)-1)/2
         for k = 1:10
             Layers=part_iv(TRAIN(i,:, k)', Weights1, Weights, NumHidden, NumNeurons);
             [Weights1, Weights]=part_vi(eta,TRAIN(i,:, k)',Layers,Target(:,k),Weights1,Weights,NumHidden,NumNeurons);
@@ -180,25 +179,25 @@ TEST(1:1009, :, 10) = test9;
 
 % test the neural network on all images from the training set
 
-numCorrect=0;
+numCorrect1=0;
 
 for i=1:10
     for j=1:TRAINNO(i)
         Layers=part_iv(TRAIN(j,:,i)', Weights1, Weights, NumHidden, NumNeurons);
         if max(Layers(1:10,NumHidden+1))==Layers(i,NumHidden+1)
-            numCorrect=numCorrect+1;
+            numCorrect1=numCorrect1+1;
         end
     end
 end
 
-train_hit = numCorrect / sum(TRAINNO);
+train_hit = numCorrect1 / sum(TRAINNO);
 
 % test the neural network on all images from the test set
 numCorrect=0;
 
 for i=1:10
     for j=1:TESTNO(i)
-        Layers=part_iv(TEST(j,:,i)', Weights1, Weights, NumHidden, NumNeurons);
+        Layers=part_iv((TEST(j,:,i)/255)', Weights1, Weights, NumHidden, NumNeurons);
         if max(Layers(1:10,NumHidden+1))==Layers(i,NumHidden+1)
             numCorrect=numCorrect+1;
         end
