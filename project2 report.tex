@@ -43,7 +43,16 @@
 \maketitle
 
 \subsection*{Distribution of work}
+Rather than divvying up the work, Steven and Kyle met in person and discussed the project. For efficiency they at times worked on different sections. Steven began the report while Kyle set up the GitHub repository (https://github.com/KyleDCox/128B\_project2), did parts i, ii, and set up the main program. Following, Steven wrote parts iii and v, while Kyle worked on iv. However, throughout these periods there was consistent communication and idea-bouncing. Together, they decoded the prompt and interpreted how to conquer each section. As they worked, they had to decide how each of the parts would connect - choosing appropriate objects and methods took deliberation on their part.
 
+
+At times, while brainstorming particularly challenging tasks, the two worked through the problems by hand and compared their results. Kyle wrote the initial framework for part vi, and in moving toward generating part vii, the two had to go back and debug each of the parts. Debugging was mostly discussed in person and resolved by both Steven and Kyle. When taking breaks between meeting, some work and debugging was done remotely by each person.
+
+
+Steven's computer was able to run the program much faster than Kyle's machine. As such, much of the computation in part vii was taken on by Steven. The two worked on part vii together, deciding how to best test their network against a variety of parameter regimes. The two had to debug this section of the code for some time in order to get the training to work. Ultimately, Steven was able to debug part vii and run it many times for statistical analysis between different parameter regimes.
+
+
+The report was written by both Steven and Kyle with communication about revisions and additions.
 
 \subsection*{Part (i)}
 Followed instructions.
@@ -271,21 +280,22 @@ We think it would be a waste of time to test this for smaller training set based
 
 \subsection*{Concluding Remarks}
 
-We have seen now that having two hidden layers with 100 and 50 neurons is the best network structure.
+We have seen now that having two hidden layers with 100 and 50 neurons is the best network structure (of those which we tested).
 Furthermore, using as many images as possible (in terms of what we have) yielded the best performance.
 Empirical results give credence to those claims.
-Moreover, for that structure, iterating through the training data set 15 times was found to give the best result.
+Moreover, for that structure, iterating through the training data set 15 times was found to give the best result. We suppose that increasing training iterations up to a point will increase the accuracy of the neural net; however, after that point any further training will over-train and become accustomed to the training set. Perhaps we could have better trained the network if we were to (for each full training iteration) randomly sort all of the training images, so that there is no structured format or cycle for the training input. This way, perhaps, the net may be more adjusted to receiving random test inputs.
 
 
 It has also been seen that $\eta$ can determine whether a set of weights with a structure form a good neural network.
-However, the effects of changing $\eta$ cannot be explained with our data because every time we run the program, a new set of initial weights is generated.
+However, the effects of changing specific $\eta$ cannot be explained with our data because every time we run the program, a new set of initial weights is generated. We can only observe the results of changing the max-min range of $\eta$. From our understanding of neural nets, these initial weights will place us randomly in the weight-parameter space corresponding to a specific parameter regime. If we consider the error function of our neural net (as a function of each of the weight parameters), then training the neural net moves the neural net down the gradient of the parameter space toward a local minimum. We realize that randomly generating a set of weights determines our initial position within this space. As such, we have little hopes of ever finding the global minimum of our parameter space. Furthermore, we cannot guess how changing our parameter regime (number of layers and number of neurons per layer) would change the global minimum of the respective error function. Perhaps our above tests reveal that some parameter regimes hit poor local minimums most of the time - who is to say that their global minimum is better than our guess for the best parameter regime? We suggest that the quality of a nerual net's setup (those parameters determining the number and size of layers) should be the quality of the net when initialized at a number of random initial weights. That is, perhaps the quality of a neural net has to do with its average local minimum of the weight function. This is why we felt it important to have significant sample sizes for the error analysis above.
 
 
-Putative hypotheses have been given to try and explain why the performance of other structures and iteration counts did not perform as well.
+Again, these statements are simply suppositions on our part. Putative hypotheses have been given to try and explain why the performance of other structures and iteration counts did not perform as well.
 Though these hypotheses may be teleological, they are the best we can come up with given our limited computational power and na\"ive notion of neural networks.
 
+\subsection*{Supplementary Tables}
 The following pages are of the raw error percentages computed by generating various neural networks.
-We filled the above tables using this data.
+We generated the above tables from analysis on the following data.
 
 \begin{table}[h]
 	\begin{center}
